@@ -710,7 +710,10 @@ namespace Alphaleonis.VSProjectSetMgr
             int hr = VsHierarchy.GetProperty(HierarchyItemId, (int)__VSHPROPID.VSHPROPID_IconHandle, out pVar);
             if (pVar != null && hr == 0)
             {
-               return new IntPtr((int)pVar);
+               if (pVar is IntPtr intPtr)
+                   return intPtr;
+               else if (pVar is int @int)
+                   return new IntPtr(@int);
             }
             else
             {
@@ -719,8 +722,8 @@ namespace Alphaleonis.VSProjectSetMgr
                {
                   object index;
                   hr = VsHierarchy.GetProperty(HierarchyItemId, (int)__VSHPROPID.VSHPROPID_IconIndex, out index);
-                  if (hr == 0 && index != null)
-                     return NativeMethods.ImageList_GetIcon(new IntPtr((int)pVar), (int)index, 0);
+                  if (hr == 0 && index != null && pVar is int @int)
+                     return NativeMethods.ImageList_GetIcon(new IntPtr(@int), (int)index, 0);
                }
             }
             return IntPtr.Zero;

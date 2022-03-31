@@ -120,6 +120,9 @@ namespace Alphaleonis.VSProjectSetMgr.ViewModels.Nodes
       {
          get
          {
+            if (m_projectSetNode.ImageHandle == IntPtr.Zero)
+               return null;
+
             return Imaging.CreateBitmapSourceFromHIcon(m_projectSetNode.ImageHandle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
          }
       }
